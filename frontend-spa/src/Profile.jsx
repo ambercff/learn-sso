@@ -8,18 +8,24 @@ function Profile(){
         axios({
             baseURL: "http://localhost:3000/userinfo",  // Ajuste o baseURL conforme necessário
         })
-        .then(res => setPrincipal(res.data))
+        .then(res =>{
+            const token = res.data.idToken;
+            setPrincipal(res.data),
+            localStorage.setItem("idToken", token)
+
+        })
         .catch(err => console.error("Erro ao carregar informações do perfil:", err));
     }, []);
 
 
     const handleFetchResource = () => {
-        if(principal.idToken){
+        const idToken = localStorage.getItem("idToken")
+        if(idToken){
             axios({
                 method: 'get',
                 url: "http://localhost:3000/resource",  // Ajuste a URL do recurso protegido conforme necessário
                 headers: {
-                    Authorization: `Bearer ${principal.idToken}`
+                    Authorization: `Bearer ${idToken}`
                 },
             })
             .then(res => {
