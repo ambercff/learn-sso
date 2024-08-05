@@ -31,7 +31,7 @@ public class SecurityConfig {
                         .pathMatchers("/login").permitAll()
                         .anyExchange().authenticated())
                 .oauth2Login(conf -> conf
-                        .authorizationRequestResolver(authorizationRequestResolver(clientRegistrationRepository))
+//                        .authorizationRequestResolver(authorizationRequestResolver(clientRegistrationRepository))
                         .authenticationSuccessHandler(new RedirectServerAuthenticationSuccessHandler("http://localhost:3000/profile")))
                 .oauth2ResourceServer(conf -> conf
                         .jwt(jwt -> jwt.jwtDecoder(jwtDecoder())));
@@ -43,9 +43,9 @@ public class SecurityConfig {
         return NimbusReactiveJwtDecoder.withJwkSetUri(jwkSetUri).build();
     }
 
-    private ServerOAuth2AuthorizationRequestResolver authorizationRequestResolver(ReactiveClientRegistrationRepository clientRegistrationRepository) {
-        var authorizationRequestResolver = new DefaultServerOAuth2AuthorizationRequestResolver(clientRegistrationRepository);
-        authorizationRequestResolver.setAuthorizationRequestCustomizer(OAuth2AuthorizationRequestCustomizers.withPkce());
-        return authorizationRequestResolver;
-    }
+//    private ServerOAuth2AuthorizationRequestResolver authorizationRequestResolver(ReactiveClientRegistrationRepository clientRegistrationRepository) {
+//        var authorizationRequestResolver = new DefaultServerOAuth2AuthorizationRequestResolver(clientRegistrationRepository);
+//        authorizationRequestResolver.setAuthorizationRequestCustomizer(OAuth2AuthorizationRequestCustomizers.withPkce());
+//        return authorizationRequestResolver;
+//    }
 }
